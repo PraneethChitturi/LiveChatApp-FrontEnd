@@ -7,9 +7,49 @@ import { Nav_Buttons, Profile_Menu } from '../../data';
 import { faker } from '@faker-js/faker';
 import AntSwitch from '../../components/AntSwitch';
 import Logo from '../../assets/Images/logo.ico';
+import {useNavigate} from 'react-router-dom';
+import { LogoutUser } from '../../redux/slices/auth';
+import { useDispatch } from 'react-redux';
+
+const getPath= (index)=>{
+  switch (index){
+    case 0:
+      return "/app";
+
+    case 1:
+      return "/group";
+
+    case 2:
+      return "/call";
+    case 3:
+      return "/settings";
+
+    default:
+      break;
+  }
+}
+
+const getMenuPath= (index)=>{
+  switch (index){
+    case 0:
+      return "/profile";
+
+    case 1:
+      return "/settings";
+
+    case 2:
+      //Update token isAuthenticated fir Logout
+      return "/auth/login";
+
+    default:
+      break;
+  }
+}
 
 const SideBar = () => {
+    const dispatch = useDispatch();
     const theme = useTheme();
+    const navigate = useNavigate();
     const [selected,setSelected] = useState(0)
     const {onToggleMode} = useSettings();
 
@@ -17,6 +57,7 @@ const SideBar = () => {
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
+
     };
     const handleClose = () => {
       setAnchorEl(null);
@@ -43,7 +84,8 @@ const SideBar = () => {
           </IconButton>
         </Box>
         : <IconButton sx={{width:"max-content", color:theme.palette.mode==="light"?"#000":theme.palette.text.primary}} key={el.index} onClick={()=>{
-          setSelected(el.index)
+          setSelected(el.index) 
+          navigate(getPath(el.index));
         }}>
             {el.icon}
           </IconButton>
@@ -54,7 +96,9 @@ const SideBar = () => {
           <IconButton sx={{width:"max-content", color:theme.palette.mode==="light"?"#000":theme.palette.text.primary}} key={3}>
           <Gear />
           </IconButton>
-          </Box>:        <IconButton onClick={()=>setSelected(3)}>
+          </Box>: <IconButton onClick={()=>{
+            setSelected(3)
+            navigate(getPath(3))}}>
         <Gear />
       </IconButton>}
       </Stack>
@@ -76,9 +120,17 @@ const SideBar = () => {
             anchorOrigin ={{vertical:"bottom",horizontal:"right"}}
             transformOrigin={{vertical:"bottom",horizontal:"left"}}>
             <Stack spacing={1} px={1}>
-                {Profile_Menu.map((el)=>{
-                    return (<MenuItem onClick={handleClick}>
-                    <Stack sx={{width:100}} direction="row" alignItems={"center"} justifyContent={"space-between"}>
+                {Profile_Menu.map((el,idx)=>{
+                    return (<MenuItem onClick={()=>{
+                      handleClick()
+                    }}>
+                    <Stack onClick={()=>{
+                      if (idx===2) {
+                        dispatch(LogoutUser());
+                      } else {
+                        navigate(getMenuPath(idx))
+                      }
+                     }} sx={{width:100}} direction="row" alignItems={"center"} justifyContent={"space-between"}>
                       <span>{el.title}</span>
                       {el.icon}
                     </Stack>

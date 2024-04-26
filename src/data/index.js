@@ -46,6 +46,82 @@ const Nav_Setting = [
   },
 ];
 
+const MembersList = [
+  {
+    id:0,
+    img:faker.image.avatar(),
+    name: faker.name.firstName(),
+    online: true,
+  },
+  {
+    id:2,
+    img:faker.image.avatar(),
+    name: faker.name.firstName(),
+    online: false,
+  },
+  {
+    id:2,
+    img:faker.image.avatar(),
+    name: faker.name.firstName(),
+    online: false,
+  },
+  {
+    id:3,
+    img:faker.image.avatar(),
+    name: faker.name.firstName(),
+    online: true,
+  },
+  {
+    id:4,
+    img:faker.image.avatar(),
+    name: faker.name.firstName(),
+    online: false,
+  }
+]
+
+const CallLogs = [
+  {
+    id:0,
+    img:faker.image.avatar(),
+    name: faker.name.firstName(),
+    missed:false,
+    incoming:true,
+    online: true,
+  },
+  {
+    id:1,
+    img:faker.image.avatar(),
+    name: faker.name.firstName(),
+    missed:true,
+    incoming:false,
+    online: false,
+  },
+  {
+    id:2,
+    img:faker.image.avatar(),
+    name: faker.name.firstName(),
+    missed:false,
+    incoming:true,
+    online: false,
+  },
+  {
+    id:3,
+    img:faker.image.avatar(),
+    name: faker.name.firstName(),
+    missed:true, 
+    incoming:false,
+    online: true,
+  },
+  {
+    id:4,
+    img:faker.image.avatar(),
+    name: faker.name.firstName(),
+    missed:true,
+    incoming:true,
+    online: true,
+  }
+]
+
 const ChatList = [
   {
     id: 0,
@@ -220,6 +296,28 @@ const Message_options = [
   },
 ];
 
+const SHARED_LINKS = [
+  {
+    type: "msg",
+    subtype: "link",
+    preview: faker.image.cats(),
+    message: "Yep, I can also do that",
+    incoming: true,
+    outgoing: false,
+  },
+]
+
+const SHARED_DOCS = [  
+  {
+  type: "msg",
+  subtype: "doc",
+  message: "Yes sure, here you go.",
+  incoming: true,
+  outgoing: false,
+},
+
+]
+
 export {
   Profile_Menu,
   Nav_Setting,
@@ -227,4 +325,8 @@ export {
   ChatList,
   Chat_History,
   Message_options,
+  SHARED_DOCS,
+  SHARED_LINKS,
+  CallLogs,
+  MembersList
 };

@@ -16,6 +16,8 @@ import {
     Sticker,
     User,
   } from "phosphor-react";
+import { ToggleSiderbar } from '../../redux/slices/app';
+import { useDispatch } from 'react-redux';
 
 const StyledInput = styled(TextField)(({theme})=>({
      "& .MuiInputBase-input":{
@@ -127,6 +129,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const Conversation = () => {
     const theme = useTheme();
     const [openPicker, setOpenPicker] = useState(false);
+    const dispatch = useDispatch();
 
   return (
     <Stack height={"100%"} maxHeight={"100vh"} width={"auto"}>
@@ -137,7 +140,9 @@ const Conversation = () => {
         <Stack alignItems={"center"} 
         direction="row" 
         justifyContent={"space-between"} sx={{width:"100%",height:"100%"}}>
-            <Stack direction={"row"} spacing={2}>
+            <Stack onClick = {()=>{
+                return dispatch(ToggleSiderbar())
+            }} direction={"row"} spacing={2}>
                 <Box>
                     <StyledBadge overlap="circular"
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -170,7 +175,7 @@ const Conversation = () => {
         </Box>
         {/*Msg*/}
         <Box sx={{width:"100%",flexGrow:1,height:"100%",overflowY:"scroll"}}>
-            <Message />
+            <Message menu={true}/>
         </Box>
         {/*Chat Footer*/}
         <Box p={2} sx={{
