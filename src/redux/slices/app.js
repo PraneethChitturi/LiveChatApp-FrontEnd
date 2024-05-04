@@ -118,7 +118,7 @@ export function FetchFriends (){
             }
         }).then((response)=>{
             console.log(response)
-            dispatch(slice.actions.updateUsers({friends:response.data.data}))
+            dispatch(slice.actions.updateFriends({friends:response.data.data}))
         }).catch((error)=>{
             console.log(error)
         })
