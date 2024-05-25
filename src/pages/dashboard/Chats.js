@@ -10,7 +10,8 @@ import { useTheme } from '@emotion/react';
 import ChatElement from '../../components/ChatElement';
 import Friends from '../../sections/main/Friends';
 import { socket } from '../../socket';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { FetchDirectConversations } from '../../redux/slices/conversation';
 
 
 const Search = styled("div")(({ theme }) => ({
@@ -48,7 +49,7 @@ const Chats = () => {
     const {conversations} = useSelector((state)=>state.conversation.direct_chat)
     const theme = useTheme();
     const [openDialog,setOpenDialog] = useState(false);
-
+    const dispatch = useDispatch();
     const handleCloseDialog = ()=>{
       setOpenDialog(false)
     }
@@ -57,13 +58,14 @@ const Chats = () => {
       setOpenDialog(true)
     }
 
-    useEffect(()=>{
-      socket.emit("get_direct_conversations",{
-        user_id
-      },(data)=>{
-        //data -> list of existing conversations
-      })
-    },[])
+    useEffect(() => {
+      socket.emit("get_direct_conversations", { user_id }, (data) => {
+        console.log(data); // this data is the list of conversations
+        // dispatch action
+  
+        dispatch(FetchDirectConversations({ conversations: data }));
+      });
+    }, []);
 
   return (
     <>

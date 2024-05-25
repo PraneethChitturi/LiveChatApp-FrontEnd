@@ -1,9 +1,9 @@
 import { Avatar, Badge, Box, Stack, Typography, styled, useTheme } from "@mui/material";
 
 import { faker } from "@faker-js/faker";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SelectConversaton } from "../redux/slices/app";
-
+import { alpha } from "@mui/material/styles";
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
       backgroundColor: '#44b700',
@@ -33,6 +33,14 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
   }));
 const ChatElement =({id,name,img,msg,time,unread,online})=> {
+    const {room_id} = useSelector((state) => state.app);
+    const selectedChatId = room_id?.toString();
+
+    let isSelected = +selectedChatId === id;
+
+    if (!selectedChatId) {
+      isSelected = false;
+    }
     const theme = useTheme();
     const dispatch = useDispatch();
     return (
@@ -40,7 +48,13 @@ const ChatElement =({id,name,img,msg,time,unread,online})=> {
           dispatch(SelectConversaton({room_id:id}))
           }}sx={{width:"100%",
         borderRadius:1,
-        backgroundColor:theme.palette.mode==="light"?"#fff":theme.palette.background.default,
+        backgroundColor: isSelected
+          ? theme.palette.mode === "light"
+            ? alpha(theme.palette.primary.main, 0.5)
+            : theme.palette.primary.main
+          : theme.palette.mode === "light"
+          ? "#fff"
+          : theme.palette.background.paper,
         }}
         p={1}>
         <Stack direction="row" alignItem={"center"} justifyContent="space-between">
